@@ -1,0 +1,20 @@
+1. Download postgresql jdbc driver jar: https://mvnrepository.com/artifact/org.postgresql/postgresql/42.6.0
+2. Put this jar in the classpath: File > Project Structure > Libraries (Project Settings) > + > Java > Locate the jar
+3. In the PgAdmin, create the database jdbc_demo
+4. Ensure the username and password in CustomerDAL.java, line 18
+5. Creat the customers table with the script below
+
+CREATE TABLE IF NOT EXISTS public.customers
+(
+    id integer NOT NULL DEFAULT nextval('customers_id_seq'::regclass),
+    name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    email character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    contact bigint NOT NULL,
+    account_type character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT customers_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.customers
+    OWNER to postgres;
