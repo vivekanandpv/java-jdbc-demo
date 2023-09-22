@@ -1,19 +1,14 @@
-1. Download postgresql jdbc driver jar: https://mvnrepository.com/artifact/org.postgresql/postgresql/42.6.0
+1. Download postgresql jdbc driver jar: https://mvnrepository.com/artifact/org.postgresql/postgresql/42.6.0 (or from your repository/confluence page)
 2. Put this jar in the classpath: File > Project Structure > Libraries (Project Settings) > + > Java > Locate the jar
 3. In the PgAdmin, create the database jdbc_demo
 4. Ensure the username and password in CustomerDAL.java, line 18
-5. Creat the customers table with the script below
+5. Create the customers table with the script below
 
-CREATE TABLE IF NOT EXISTS public.customers
+CREATE TABLE customers
 (
     id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
     contact BIGINT NOT NULL,
     account_type VARCHAR(50)
-)
-
-TABLESPACE pg_default;
-
-ALTER TABLE IF EXISTS public.customers
-    OWNER to postgres;
+);
