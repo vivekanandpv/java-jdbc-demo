@@ -6,12 +6,11 @@
 
 CREATE TABLE IF NOT EXISTS public.customers
 (
-    id integer NOT NULL DEFAULT nextval('customers_id_seq'::regclass),
-    name character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    email character varying(100) COLLATE pg_catalog."default" NOT NULL,
-    contact bigint NOT NULL,
-    account_type character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT customers_pkey PRIMARY KEY (id)
+    id SERIAL NOT NULL PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    contact BIGINT NOT NULL,
+    account_type VARCHAR(50)
 )
 
 TABLESPACE pg_default;
