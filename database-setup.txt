@@ -1,14 +1,18 @@
-1. Download postgresql jdbc driver jar: https://mvnrepository.com/artifact/org.postgresql/postgresql/42.6.0 (or from your repository/confluence page)
+1. Download MySQL jdbc driver jar: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j/8.2.0
 2. Put this jar in the classpath: File > Project Structure > Libraries (Project Settings) > + > Java > Locate the jar
-3. In the PgAdmin, create the database jdbc_demo
+3. In the MySQL Workbench, create the database jdbc_demo
+    CREATE DATABASE jdbc_demo;
+    USE jdbc_demo;
+
 4. Ensure the username and password in CustomerDAL.java, line 18
 5. Create the customers table with the script below
 
 CREATE TABLE customers
 (
-    id SERIAL NOT NULL PRIMARY KEY,
+    id int NOT NULL AUTO_INCREMENT,
     name VARCHAR(100),
     email VARCHAR(100),
     contact BIGINT NOT NULL,
-    account_type VARCHAR(50)
+    account_type VARCHAR(50),
+    PRIMARY KEY(id)
 );

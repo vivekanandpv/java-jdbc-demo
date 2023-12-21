@@ -11,11 +11,11 @@ import java.util.List;
 
 public class CustomerDAL {
 	private static Connection getConnection() throws ClassNotFoundException, SQLException {
-		Class.forName("org.postgresql.Driver");
+		Class.forName("com.mysql.cj.jdbc.Driver");
 
 		Connection conn = null;
 
-		conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/jdbc_demo", "postgres", "postgres");
+		conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_demo", "root", "Mysql@2023");
 		if (conn != null) {
 			return conn;
 		} else {
@@ -70,7 +70,7 @@ public class CustomerDAL {
 	}
 
 	public static void createCustomer(Customer customer) throws SQLException, ClassNotFoundException {
-		String sql = "INSERT INTO public.customers(name, email, contact, account_type) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO customers(name, email, contact, account_type) VALUES (?, ?, ?, ?)";
 
 		PreparedStatement pstmt = getConnection().prepareStatement(sql);
 
@@ -85,7 +85,7 @@ public class CustomerDAL {
 
 	public static void updateCustomer(Customer updatedCustomer) throws ClassNotFoundException, SQLException {
 
-		String query = "UPDATE public.customers SET name=?, email=?, contact=?, account_type=? WHERE id = ?";
+		String query = "UPDATE customers SET name=?, email=?, contact=?, account_type=? WHERE id = ?";
 
 		PreparedStatement pstmt = getConnection().prepareStatement(query);
 		pstmt.setString(1, updatedCustomer.getName());
