@@ -28,80 +28,89 @@ public class CustomerDAL {
 
 		String query = "SELECT * FROM customers";
 
-		Statement stmt = getConnection().createStatement();
-		ResultSet results = stmt.executeQuery(query);
+		try	(Connection connection = getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet results = statement.executeQuery(query);
 
-		while (results.next()) {
-			Customer customer = new Customer();
+			while (results.next()) {
+				Customer customer = new Customer();
 
-			customer.setId(results.getInt("id"));
-			customer.setName(results.getString("name"));
-			customer.setEmail(results.getString("email"));
-			customer.setContact(results.getLong("contact"));
-			customer.setAccountType(results.getString("account_type"));
+				customer.setId(results.getInt("id"));
+				customer.setName(results.getString("name"));
+				customer.setEmail(results.getString("email"));
+				customer.setContact(results.getLong("contact"));
+				customer.setAccountType(results.getString("account_type"));
 
-			customers.add(customer);
+				customers.add(customer);
+			}
+
+			return customers;
 		}
-
-		return customers;
 	}
 
 	public static Customer getCustomer(int id) throws ClassNotFoundException, SQLException {
 		String query = "SELECT * FROM customers WHERE id = ?";
 
-		PreparedStatement pstmt = getConnection().prepareStatement(query);
-		pstmt.setInt(1, id);
-		ResultSet results = pstmt.executeQuery();
+		try (Connection connection = getConnection()) {
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, id);
+			ResultSet results = preparedStatement.executeQuery();
 
-		while (results.next()) {
-			Customer customer = new Customer();
+			while (results.next()) {
+				Customer customer = new Customer();
 
-			customer.setId(results.getInt("id"));
-			customer.setName(results.getString("name"));
-			customer.setEmail(results.getString("email"));
-			customer.setContact(results.getLong("contact"));
-			customer.setAccountType(results.getString("account_type"));
+				customer.setId(results.getInt("id"));
+				customer.setName(results.getString("name"));
+				customer.setEmail(results.getString("email"));
+				customer.setContact(results.getLong("contact"));
+				customer.setAccountType(results.getString("account_type"));
 
-			return customer;
+				return customer;
+			}
+
+			throw new RuntimeException("Customer doesn't exist"); // customer doesn't exist
 		}
-
-		throw new RuntimeException("Customer doesn't exist"); // customer doesn't exist
-
 	}
 
 	public static void createCustomer(Customer customer) throws SQLException, ClassNotFoundException {
 		String sql = "INSERT INTO public.customers(name, email, contact, account_type) VALUES (?, ?, ?, ?)";
 
-		PreparedStatement pstmt = getConnection().prepareStatement(sql);
+		try (Connection connection = getConnection()) {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-		// replace these ?
-		pstmt.setString(1, customer.getName());
-		pstmt.setString(2, customer.getEmail());
-		pstmt.setLong(3, customer.getContact());
-		pstmt.setString(4, customer.getAccountType());
+			// replace these ?
+			preparedStatement.setString(1, customer.getName());
+			preparedStatement.setString(2, customer.getEmail());
+			preparedStatement.setLong(3, customer.getContact());
+			preparedStatement.setString(4, customer.getAccountType());
 
-		pstmt.execute();
+			preparedStatement.execute();
+		}
 	}
 
 	public static void updateCustomer(Customer updatedCustomer) throws ClassNotFoundException, SQLException {
 
 		String query = "UPDATE public.customers SET name=?, email=?, contact=?, account_type=? WHERE id = ?";
 
-		PreparedStatement pstmt = getConnection().prepareStatement(query);
-		pstmt.setString(1, updatedCustomer.getName());
-		pstmt.setString(2, updatedCustomer.getEmail());
-		pstmt.setLong(3, updatedCustomer.getContact());
-		pstmt.setString(4, updatedCustomer.getAccountType());
-		pstmt.setInt(5, updatedCustomer.getId());
+		try (Connection connection = getConnection()) {
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, updatedCustomer.getName());
+			preparedStatement.setString(2, updatedCustomer.getEmail());
+			preparedStatement.setLong(3, updatedCustomer.getContact());
+			preparedStatement.setString(4, updatedCustomer.getAccountType());
+			preparedStatement.setInt(5, updatedCustomer.getId());
 
-		pstmt.execute();
+			preparedStatement.execute();
+		}
 	}
 
 	public static void deleteCustomer(int id) throws ClassNotFoundException, SQLException {
 		String query = "DELETE FROM customers WHERE id = ?";
 
-		PreparedStatement pstmt = getConnection().prepareStatement(query);
-		pstmt.setInt(1, id);
-		pstmt.execute();
+		try (Connection connection = getConnection()) {
+			PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+			preparedStatement.setInt(1, id);
+			preparedStatement.execute();
+		}
 	}
 }
